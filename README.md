@@ -25,7 +25,7 @@ cd react-redux-typescript-boilerplate
 yarn install
 ```
 
-## How to development
+## How to develop
 
 ```sh
 yarn watch
