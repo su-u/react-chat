@@ -15,9 +15,10 @@ export class App extends React.Component<Props> {
 
     return (
       <Container>
-        {name ? `${name} でログインしました` : (
-          <button onClick={() => app_actions.login('test')}>ログイン</button>
-        )}
+        {name ?
+          `${name} さん、こんにちは。` :
+          (<button onClick={() => app_actions.login('test')}>こんにちは</button>)
+        }
       </Container>
     );
   }
@@ -25,7 +26,7 @@ export class App extends React.Component<Props> {
 
 function mapStateToProps(state) {
   return {
-    name:  state.app.get('login_user_name')
+    name: state.app.get('login_user_name')
   };
 }
 

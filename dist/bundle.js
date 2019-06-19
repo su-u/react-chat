@@ -36591,7 +36591,9 @@ var App = /** @class */ (function (_super) {
     }
     App.prototype.render = function () {
         var _a = this.props, app_actions = _a.app_actions, name = _a.name;
-        return (React.createElement(Container, null, name ? name + " \u3067\u30ED\u30B0\u30A4\u30F3\u3057\u307E\u3057\u305F" : (React.createElement("button", { onClick: function () { return app_actions.login('test'); } }, "\u30ED\u30B0\u30A4\u30F3"))));
+        return (React.createElement(Container, null, name ?
+            name + " \u3055\u3093\u3001\u3053\u3093\u306B\u3061\u306F\u3002" :
+            (React.createElement("button", { onClick: function () { return app_actions.login('test'); } }, "\u3053\u3093\u306B\u3061\u306F"))));
     };
     return App;
 }(React.Component));

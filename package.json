@@ -4,6 +4,9 @@
   "description": "",
   "keywords": [],
   "main": "src/index1.tsx",
+  "author": "AutoScale, Inc.",
+  "license": "UNLICENSED",
+  "homepage": "https://autoscale.jp/",
   "dependencies": {
     "firebase": "6.2.0",
     "immutable": "^3.8.2",
@@ -27,10 +30,8 @@
     "webpack-dev-server": "^3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "build": "webpack",
+    "watch": "webpack -w"
   },
   "browserslist": [
     ">0.2%",
