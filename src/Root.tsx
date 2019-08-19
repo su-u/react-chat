@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import App from "./containers/App";
 
 export default ({ store }) => (
-  <Provider store={store}>
-    <App />
-  </Provider>
+    <Provider store={store}>
+        <App />
+    </Provider>
 );
