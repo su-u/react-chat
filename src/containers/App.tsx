@@ -2,7 +2,11 @@ import * as React from "react";
 import { bindActionCreators } from "redux";
 import { connect, Dispatch } from "react-redux";
 import styled from 'styled-components';
-import * as App_actions from "../actions/app";
+import {login, ReceiveMessage, SendMessage} from "../actions/app";
+import { firebaseDb } from '../firebase/index';
+
+
+const messagesRef = firebaseDb.ref('messages');
 
 interface Props {
   name: string;
@@ -17,7 +21,7 @@ export class App extends React.Component<Props> {
       <Container>
         {name ?
           `${name} さん、こんにちは。` :
-          (<button onClick={() => app_actions.login('test')}>こんにちは</button>)
+          (<button onClick={() => app_actions('test')}>こんにちは</button>)
         }
       </Container>
     );
@@ -32,7 +36,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    app_actions: bindActionCreators(App_actions, dispatch),
+    app_actions: bindActionCreators(login, dispatch),
+
   };
 }
 
