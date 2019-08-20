@@ -11,10 +11,10 @@ export const login = (name: string) => {
     };
 }
 
-export const sendMessage = (name: string, text: string, date: string) => dispatch =>{
+export const sendMessage = (name: string, text: string, date: string) => dispatch => {
     console.log("send");
-    const article = {name: name, text: text, date: date};
-    messagesRef.push(article);
+    const message = {name: name, text: text, date: date};
+    messagesRef.push(message);
     dispatch({
         type: type.SEND_MESSAGE,
         message: "",
@@ -31,7 +31,7 @@ function messageSuccess(list) {
 export const receiveMessage = () => dispatch => {
     messagesRef.off();
     messagesRef.on("value", (snapshot) => {
-        let messageList= [];
+        let messageList = [];
         snapshot.forEach((doc) => {
             const key = doc.key;
             const value = doc.val();

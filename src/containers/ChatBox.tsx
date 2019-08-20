@@ -22,19 +22,19 @@ export class ChatBox extends React.Component<Props> {
             <UserField>
                 <p>ようこそ {name} さん</p>
                 <form>
-                        <DisableInput />
-                        <Input type="text" onChange={(e) => {
-                            input = e.target.value
-                        }} placeholder="メッセージ"
-                        />
-                        <Button type="reset" value="Submit" onClick={(e) => {
-                            if (input) {
-                                app_actions.sendMessage(name, input, dateToStr24HPad0(new Date(), 'YYYY/MM/DD hh:mm:ss'));
-                                input = "";
+                    <DisableInput/>
+                    <Input type="text" onChange={(e) => {
+                        input = e.target.value
+                    }} placeholder="メッセージ"
+                    />
+                    <Button type="reset" value="Submit" onClick={(e) => {
+                        if (input) {
+                            app_actions.sendMessage(name, input, dateToStr24HPad0(new Date(), 'YYYY/MM/DD hh:mm:ss'));
+                            input = "";
 
-                            } else {
-                                return "";
-                            }
+                        } else {
+                            return "";
+                        }
                     }}>Send</Button>
                 </form>
 

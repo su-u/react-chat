@@ -2,9 +2,9 @@
 // このファイルについては理解できなくて OK です
 
 import * as React from "react";
-import { Provider } from "react-redux";
+import {Provider} from "react-redux";
 import App from "./containers/App";
-import styled , { createGlobalStyle } from 'styled-components';
+import styled, {createGlobalStyle} from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -12,8 +12,8 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-export default ({ store }) => (
+export default ({store}) => (
     <Provider store={store}>
-        <App />
+        <App/>
     </Provider>
 );

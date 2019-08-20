@@ -27,11 +27,11 @@ export class App extends React.Component<Props> {
         let input;
         return (
             <Body>
-                <GlobalStyle />
-                <Header />
+                <GlobalStyle/>
+                <Header/>
                 <Container>
                     <UserField>
-                    {!name &&
+                        {!name &&
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
@@ -43,15 +43,17 @@ export class App extends React.Component<Props> {
                                 }
                             }}
                         >
-                            <Input onChange={(e) => {input = e.target.value}} placeholder="ユーザー名"/>
+                            <Input onChange={(e) => {
+                                input = e.target.value
+                            }} placeholder="ユーザー名"/>
                             <Button type="submit">ログイン</Button>
                         </form>
-                    }
-                    {
-                        name && <ChatBox />
-                    }
+                        }
+                        {
+                            name && <ChatBox/>
+                        }
                     </UserField>
-                    <MessageList />
+                    <MessageList/>
                 </Container>
             </Body>
         );

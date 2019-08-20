@@ -1,4 +1,4 @@
-export enum Actions{
+export enum Actions {
     APP_LOGIN = "APP_LOGIN",
     SEND_MESSAGE = "SEND_MESSAGE",
     RECEIVE_MESSAGE = "RECEIVE_MESSAGE",
