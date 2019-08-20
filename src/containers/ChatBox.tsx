@@ -2,6 +2,7 @@ import * as React from "react"
 import {bindActionCreators} from "redux";
 import * as Actions from "../actions/app"
 import {connect, Dispatch} from "react-redux";
+import styled from 'styled-components';
 
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -21,6 +22,7 @@ export class ChatBox extends React.Component<Props> {
             <UserField>
                 <p>ようこそ {name} さん</p>
                 <form>
+                        <DisableInput />
                         <Input type="text" onChange={(e) => {
                             input = e.target.value
                         }} placeholder="メッセージ"
@@ -71,3 +73,9 @@ export default connect(
     mapDispatchToProps,
 )(ChatBox);
 
+
+const DisableInput = styled.input.attrs({
+    type: 'text',
+})`
+    display: none;
+`;
