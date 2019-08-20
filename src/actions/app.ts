@@ -1,4 +1,6 @@
 import {Actions as type } from "../actions"
+import {firebaseDb} from '../firebase/index';
+const messagesRef = firebaseDb.ref('messages');
 
 export function login(name: string) {
   return {
@@ -7,18 +9,26 @@ export function login(name: string) {
   };
 }
 
-export function SendMessage(text: string, name: string, date: string) {
-  return {
-    type: type.SEND_MESSAGE,
-    send_date: date,
-    send_name: name,
-    send_message: text
-  };
+export function sendMessage(name: string, text: string, date: string) {
+    console.log("send");
+    return dispatch => {
+        messagesRef.push({name: name, text: text, date: date});
+    }
 }
 
-export function ReceiveMessage(messageList: {[data: string]: string}) {
-  return {
-    type: type.RECEIVE_MESSAGE,
-    message_list: messageList,
-  };
+export function receiveMessage() {
+    messagesRef.on('message',(snapshot) => {
+        let messageList=[];
+        snapshot.docs.forEach((doc) => {
+            const message = doc.data();
+            messageList.push({
+                id: doc.id,
+                ...message
+            });
+        });
+        return dispatch => ({
+            type: type.RECEIVE_MESSAGE,
+            message_list: messageList
+        })
+    })
 }
