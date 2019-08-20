@@ -86466,7 +86466,6 @@ exports.__esModule = true;
 var Actions;
 (function (Actions) {
     Actions["APP_LOGIN"] = "APP_LOGIN";
-    Actions["SEND_MESSAGE"] = "SEND_MESSAGE";
     Actions["RECEIVE_MESSAGE"] = "RECEIVE_MESSAGE";
 })(Actions = exports.Actions || (exports.Actions = {}));
 
@@ -86483,7 +86482,9 @@ var Actions;
 "use strict";
 
 exports.__esModule = true;
+var index_1 = __webpack_require__(/*! ../firebase/index */ "./src/firebase/index.ts");
 var actions_1 = __webpack_require__(/*! ../actions */ "./src/actions.ts");
+var messagesRef = index_1.firebaseDb.ref('messages');
 function login(name) {
     return {
         type: actions_1.Actions.APP_LOGIN,
@@ -86491,22 +86492,86 @@ function login(name) {
     };
 }
 exports.login = login;
-function SendMessage(text, name, date) {
-    return {
-        type: actions_1.Actions.SEND_MESSAGE,
-        send_date: date,
-        send_name: name,
-        send_message: text
+function sendMessage(name, text, date) {
+    console.log("send");
+    return function (dispatch) {
+        messagesRef.push({ name: name, text: text, date: date });
     };
 }
-exports.SendMessage = SendMessage;
-function ReceiveMessage(messageList) {
+exports.sendMessage = sendMessage;
+function fetchTodoSuccess(list) {
     return {
         type: actions_1.Actions.RECEIVE_MESSAGE,
-        message_list: messageList,
+        message_list: list,
     };
 }
-exports.ReceiveMessage = ReceiveMessage;
+;
+function receiveMessage() {
+    return function (dispatch) {
+        var messageList = [];
+        console.log("receive");
+        messagesRef.off();
+        messagesRef.on("value", function (snapshot) {
+            snapshot.forEach(function (doc) {
+                var key = doc.key;
+                var value = doc.val();
+                messageList.push({
+                    id: key,
+                    name: value.name,
+                    message: value.text,
+                    date: value.date
+                });
+            });
+            return dispatch(fetchTodoSuccess(messageList));
+        });
+    };
+}
+exports.receiveMessage = receiveMessage;
+;
+
+
+/***/ }),
+
+/***/ "./src/components/message.tsx":
+/*!************************************!*\
+  !*** ./src/components/message.tsx ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var Message = /** @class */ (function (_super) {
+    __extends(Message, _super);
+    function Message() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Message.prototype.render = function () {
+        var _a = this.props, name = _a.name, message = _a.message, timestamp = _a.timestamp;
+        return (React.createElement("div", { className: "Message" },
+            React.createElement("div", { className: "" },
+                React.createElement("p", { className: "" }, name),
+                React.createElement("p", { className: "" }, message),
+                React.createElement("p", { className: "" }, timestamp))));
+    };
+    return Message;
+}(React.Component));
+exports["default"] = Message;
 
 
 /***/ }),
@@ -86542,36 +86607,178 @@ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-var app_1 = __webpack_require__(/*! ../actions/app */ "./src/actions/app.ts");
-var index_1 = __webpack_require__(/*! ../firebase/index */ "./src/firebase/index.ts");
-var messagesRef = index_1.firebaseDb.ref('messages');
+var Actions = __webpack_require__(/*! ../actions/app */ "./src/actions/app.ts");
+var ChatBox_1 = __webpack_require__(/*! ./ChatBox */ "./src/containers/ChatBox.tsx");
+var MessageList_1 = __webpack_require__(/*! ./MessageList */ "./src/containers/MessageList.tsx");
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     App.prototype.render = function () {
-        var _a = this.props, app_actions = _a.app_actions, name = _a.name;
-        return (React.createElement(Container, null, name ?
-            name + " \u3055\u3093\u3001\u3053\u3093\u306B\u3061\u306F\u3002" :
-            (React.createElement("button", { onClick: function () { return app_actions('test'); } }, "\u3053\u3093\u306B\u3061\u306F"))));
+        var _a = this.props, app_actions = _a.app_actions, name = _a.name, message_list = _a.message_list;
+        return (React.createElement("div", null,
+            React.createElement(Container, null,
+                name ?
+                    name + " \u3055\u3093\u3001\u3053\u3093\u306B\u3061\u306F\u3002" :
+                    (React.createElement("button", { onClick: function () { app_actions.login('test'); console.log("hello"); } }, "\u3053\u3093\u306B\u3061\u306F")),
+                React.createElement(ChatBox_1["default"], { name: name, message: "", message_send: "" }),
+                React.createElement(MessageList_1["default"], { app_actions: [], message_list: function (e) { return app_actions.receiveMessage(); } }))));
     };
     return App;
 }(React.Component));
 exports.App = App;
 function mapStateToProps(state) {
     return {
-        name: state.app.get('login_user_name')
+        name: state.app.get("login_user_name"),
+        text: state.app.get("send_message"),
+        message_list: state.app.get("message_list"),
     };
 }
 function mapDispatchToProps(dispatch) {
     return {
-        app_actions: redux_1.bindActionCreators(app_1.login, dispatch),
+        app_actions: redux_1.bindActionCreators(Actions, dispatch),
     };
 }
 exports["default"] = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(App);
 var Container = styled_components_1["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  max-width: 800px;\n  margin: 0 auto;\n"], ["\n  max-width: 800px;\n  margin: 0 auto;\n"])));
 var templateObject_1;
+
+
+/***/ }),
+
+/***/ "./src/containers/ChatBox.tsx":
+/*!************************************!*\
+  !*** ./src/containers/ChatBox.tsx ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
+var Actions = __webpack_require__(/*! ../actions/app */ "./src/actions/app.ts");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+;
+var ChatBox = /** @class */ (function (_super) {
+    __extends(ChatBox, _super);
+    function ChatBox() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ChatBox.prototype.render = function () {
+        var _a = this.props, name = _a.name, app_actions = _a.app_actions;
+        var input;
+        return (React.createElement("div", { className: "ChatBox" },
+            React.createElement("div", { className: "" },
+                React.createElement("p", null, name),
+                React.createElement("input", { name: name, className: "", placeholder: "\u540D\u524D" }),
+                React.createElement("form", { onSubmit: function (e) {
+                        e.preventDefault();
+                        if (input) {
+                            app_actions.sendMessage(name, input, new Date().toString());
+                            input = '';
+                        }
+                        else {
+                            return;
+                        }
+                    } },
+                    React.createElement("input", { onChange: function (e) { input = e.target.value; } }),
+                    React.createElement("button", { type: "submit" }, "Send")))));
+    };
+    return ChatBox;
+}(React.Component));
+exports.ChatBox = ChatBox;
+function mapStateToProps(state) {
+    return {
+        name: state.app.get("login_user_name"),
+    };
+}
+function mapDispatchToProps(dispatch) {
+    return {
+        app_actions: redux_1.bindActionCreators(Actions, dispatch),
+    };
+}
+exports["default"] = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(ChatBox);
+
+
+/***/ }),
+
+/***/ "./src/containers/MessageList.tsx":
+/*!****************************************!*\
+  !*** ./src/containers/MessageList.tsx ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
+var Actions = __webpack_require__(/*! ../actions/app */ "./src/actions/app.ts");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var message_1 = __webpack_require__(/*! ../components/message */ "./src/components/message.tsx");
+var index_1 = __webpack_require__(/*! ../firebase/index */ "./src/firebase/index.ts");
+var messagesRef = index_1.firebaseDb.ref('messages');
+var MessageList = /** @class */ (function (_super) {
+    __extends(MessageList, _super);
+    function MessageList() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    MessageList.prototype.componentDidMount = function () {
+        var app_actions = this.props.app_actions;
+        console.log("start");
+        app_actions.receiveMessage();
+    };
+    MessageList.prototype.render = function () {
+        var _a = this.props, message_list = _a.message_list, app_actions = _a.app_actions;
+        return (React.createElement("ul", null,
+            React.createElement("button", { onClick: function () { return app_actions.receiveMessage(); } }, "Fetch"),
+            message_list ?
+                message_list.map(function (todo) { return (React.createElement(message_1["default"], { key: todo.id, name: todo.name, message: todo.message, timestamp: todo.date })); }) : "a"));
+    };
+    return MessageList;
+}(React.Component));
+exports.MessageList = MessageList;
+function mapStateToProps(state) {
+    return {
+        message_list: state.app.get("message_list"),
+    };
+}
+function mapDispatchToProps(dispatch) {
+    return {
+        app_actions: redux_1.bindActionCreators(Actions, dispatch),
+    };
+}
+exports["default"] = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(MessageList);
 
 
 /***/ }),
@@ -86655,16 +86862,11 @@ function default_1(state, action) {
     switch (action.type) {
         case actions_1.Actions.APP_LOGIN:
             return state.set("login_user_name", action.login_user_name);
-        case actions_1.Actions.SEND_MESSAGE:
-            return state
-                .set("send_date", new Date().toString())
-                .set("send_name", action.send_date)
-                .set("send_message", action.send_message);
         case actions_1.Actions.RECEIVE_MESSAGE:
             return state.set("message_list", action.message_list);
         default:
     }
-    return state || immutable_1.Map({ login_user_name: "" });
+    return state || immutable_1.Map({ login_user_name: "", message_list: [] });
 }
 exports["default"] = default_1;
 
@@ -86685,35 +86887,9 @@ exports["default"] = default_1;
 exports.__esModule = true;
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
 var app_1 = __webpack_require__(/*! ./app */ "./src/reducers/app.ts");
-var message_1 = __webpack_require__(/*! ./message */ "./src/reducers/message.ts");
 exports["default"] = redux_1.combineReducers({
-    app: app_1["default"], message: message_1["default"]
+    app: app_1["default"]
 });
-
-
-/***/ }),
-
-/***/ "./src/reducers/message.ts":
-/*!*********************************!*\
-  !*** ./src/reducers/message.ts ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-function default_1(state, action) {
-    switch (action.type) {
-        case "SEND_MESSAGE":
-            return "";
-        case "RECEIVE_MESSAGE":
-            return "";
-        default:
-    }
-    return "";
-}
-exports["default"] = default_1;
 
 
 /***/ }),
