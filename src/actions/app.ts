@@ -42,6 +42,6 @@ export const receiveMessage = () => dispatch => {
             });
         });
         console.log(messageList.length);
-        return dispatch(messageSuccess(messageList));
+        return dispatch(messageSuccess(messageList.reverse()));
     });
 };
