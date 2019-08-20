@@ -86501,8 +86501,8 @@ exports.login = function (name) {
 };
 exports.sendMessage = function (name, text, date) { return function (dispatch) {
     console.log("send");
-    var article = { name: name, text: text, date: date };
-    messagesRef.push(article);
+    var message = { name: name, text: text, date: date };
+    messagesRef.push(message);
     dispatch({
         type: actions_1.Actions.SEND_MESSAGE,
         message: "",
@@ -86875,7 +86875,9 @@ var App = /** @class */ (function (_super) {
                                     return;
                                 }
                             } },
-                            React.createElement(Input_1["default"], { onChange: function (e) { input = e.target.value; }, placeholder: "\u30E6\u30FC\u30B6\u30FC\u540D" }),
+                            React.createElement(Input_1["default"], { onChange: function (e) {
+                                    input = e.target.value;
+                                }, placeholder: "\u30E6\u30FC\u30B6\u30FC\u540D" }),
                             React.createElement(Button_1["default"], { type: "submit" }, "\u30ED\u30B0\u30A4\u30F3")),
                     name && React.createElement(ChatBox_1["default"], null)),
                 React.createElement(MessageList_1["default"], null))));
@@ -87028,8 +87030,6 @@ var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js
 var Actions = __webpack_require__(/*! ../actions/app */ "./src/actions/app.ts");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var message_1 = __webpack_require__(/*! ../components/message */ "./src/components/message.tsx");
-var index_1 = __webpack_require__(/*! ../firebase/index */ "./src/firebase/index.ts");
-var messagesRef = index_1.firebaseDb.ref('messages');
 var MessageList = /** @class */ (function (_super) {
     __extends(MessageList, _super);
     function MessageList() {
@@ -87096,10 +87096,9 @@ const firebaseConfig = {
 "use strict";
 
 exports.__esModule = true;
-// @ts-ignore
-var firebase_1 = __webpack_require__(/*! firebase */ "./node_modules/firebase/dist/index.cjs.js");
+var firebase = __webpack_require__(/*! firebase */ "./node_modules/firebase/dist/index.cjs.js");
 var config_1 = __webpack_require__(/*! ./config */ "./src/firebase/config.js");
-exports.firebaseApp = firebase_1["default"].initializeApp(config_1.firebaseConfig);
+exports.firebaseApp = firebase.initializeApp(config_1.firebaseConfig);
 exports.firebaseDb = exports.firebaseApp.database();
 
 
