@@ -1,9 +1,9 @@
 import * as React from "react";
 import './App.css';
-import { firebaseDb } from './firebase/index'
+import { firebaseDb } from './firebase/index';
 
 
-const messagesRef = firebaseDb.ref('messages')
+const messagesRef = firebaseDb.ref('messages');
 
 class App extends React.Component {
     constructor(props) {
