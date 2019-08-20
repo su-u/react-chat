@@ -17,16 +17,32 @@ interface Props {
 
 export class App extends React.Component<Props> {
     render() {
-        const {app_actions, name, message_list} = this.props;
+        const {app_actions, name} = this.props;
 
+        let input;
         return (
             <div>
                 <Container>
                     {name ?
-                        `${name} さん、こんにちは。` :
-                        (<button onClick={() => {app_actions.login('test');console.log("hello")}}>こんにちは</button>)
+                        "":
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                if (input) {
+                                    app_actions.login(input);
+                                    input = '';
+                                } else {
+                                    return
+                                }
+                            }}
+                        >
+                            <input onChange={(e) => {input = e.target.value}} placeholder="ユーザー名"/>
+                            <button type="submit">ログイン</button>
+                        </form>
                     }
-                    <ChatBox />
+                    {
+                        name && <ChatBox/>
+                    }
                     <MessageList />
                 </Container>
 

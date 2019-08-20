@@ -16,7 +16,6 @@ export class ChatBox extends React.Component<Props> {
             <div className="ChatBox">
                 <div className="">
                         <p>{name}</p>
-                        <input name={name} className=""  placeholder="名前" />
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
@@ -28,7 +27,7 @@ export class ChatBox extends React.Component<Props> {
                                 }
                             }}
                     >
-                        <input onChange={(e) => {input = e.target.value}} />
+                        <input onChange={(e) => {input = e.target.value}} placeholder="メッセージ" />
                         <button type="submit">Send</button>
                     </form>
                 </div>
