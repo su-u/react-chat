@@ -86453,6 +86453,26 @@ exports["default"] = (function (_a) {
 
 /***/ }),
 
+/***/ "./src/actions.ts":
+/*!************************!*\
+  !*** ./src/actions.ts ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var Actions;
+(function (Actions) {
+    Actions["APP_LOGIN"] = "APP_LOGIN";
+    Actions["SEND_MESSAGE"] = "SEND_MESSAGE";
+    Actions["RECEIVE_MESSAGE"] = "RECEIVE_MESSAGE";
+})(Actions = exports.Actions || (exports.Actions = {}));
+
+
+/***/ }),
+
 /***/ "./src/actions/app.ts":
 /*!****************************!*\
   !*** ./src/actions/app.ts ***!
@@ -86463,24 +86483,26 @@ exports["default"] = (function (_a) {
 "use strict";
 
 exports.__esModule = true;
+var actions_1 = __webpack_require__(/*! ../actions */ "./src/actions.ts");
 function login(name) {
     return {
-        type: "APP_LOGIN",
+        type: actions_1.Actions.APP_LOGIN,
         login_user_name: name
     };
 }
 exports.login = login;
-function SendMessage(text, date) {
+function SendMessage(text, name, date) {
     return {
-        type: "SEND_MESSAGE",
-        send_message: text,
-        send_date: date
+        type: actions_1.Actions.SEND_MESSAGE,
+        send_date: date,
+        send_name: name,
+        send_message: text
     };
 }
 exports.SendMessage = SendMessage;
 function ReceiveMessage(messageList) {
     return {
-        type: "RECEIVE_MESSAGE",
+        type: actions_1.Actions.RECEIVE_MESSAGE,
         message_list: messageList,
     };
 }
@@ -86628,10 +86650,18 @@ react_dom_1.render(React.createElement(Root_1["default"], { store: store }), doc
 
 exports.__esModule = true;
 var immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.js");
+var actions_1 = __webpack_require__(/*! ../actions */ "./src/actions.ts");
 function default_1(state, action) {
     switch (action.type) {
-        case "APP_LOGIN":
+        case actions_1.Actions.APP_LOGIN:
             return state.set("login_user_name", action.login_user_name);
+        case actions_1.Actions.SEND_MESSAGE:
+            return state
+                .set("send_date", new Date().toString())
+                .set("send_name", action.send_date)
+                .set("send_message", action.send_message);
+        case actions_1.Actions.RECEIVE_MESSAGE:
+            return state.set("message_list", action.message_list);
         default:
     }
     return state || immutable_1.Map({ login_user_name: "" });
