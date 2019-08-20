@@ -86440,15 +86440,22 @@ module.exports = function(originalModule) {
 
 // Redux の更新があったときに React を呼ぶ処理です
 // このファイルについては理解できなくて OK です
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 exports.__esModule = true;
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var App_1 = __webpack_require__(/*! ./containers/App */ "./src/containers/App.tsx");
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+var GlobalStyle = styled_components_1.createGlobalStyle(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    body {\n        margin: 0;\n    }\n"], ["\n    body {\n        margin: 0;\n    }\n"])));
 exports["default"] = (function (_a) {
     var store = _a.store;
     return (React.createElement(react_redux_1.Provider, { store: store },
         React.createElement(App_1["default"], null)));
 });
+var templateObject_1;
 
 
 /***/ }),
@@ -86466,7 +86473,7 @@ exports.__esModule = true;
 var Actions;
 (function (Actions) {
     Actions["APP_LOGIN"] = "APP_LOGIN";
-    Actions["SNED_MESSAGE"] = "SEND_MESSAGE";
+    Actions["SEND_MESSAGE"] = "SEND_MESSAGE";
     Actions["RECEIVE_MESSAGE"] = "RECEIVE_MESSAGE";
 })(Actions = exports.Actions || (exports.Actions = {}));
 
@@ -86486,22 +86493,22 @@ exports.__esModule = true;
 var index_1 = __webpack_require__(/*! ../firebase/index */ "./src/firebase/index.ts");
 var actions_1 = __webpack_require__(/*! ../actions */ "./src/actions.ts");
 var messagesRef = index_1.firebaseDb.ref('messages');
-function login(name) {
+exports.login = function (name) {
     return {
         type: actions_1.Actions.APP_LOGIN,
         login_user_name: name
     };
-}
-exports.login = login;
+};
 exports.sendMessage = function (name, text, date) { return function (dispatch) {
     console.log("send");
     var article = { name: name, text: text, date: date };
     messagesRef.push(article);
     dispatch({
-        type: actions_1.Actions.SNED_MESSAGE,
+        type: actions_1.Actions.SEND_MESSAGE,
+        message: "",
     });
 }; };
-function fetchTodoSuccess(list) {
+function messageSuccess(list) {
     return {
         type: actions_1.Actions.RECEIVE_MESSAGE,
         message_list: list,
@@ -86523,9 +86530,228 @@ exports.receiveMessage = function () { return function (dispatch) {
             });
         });
         console.log(messageList.length);
-        return dispatch(fetchTodoSuccess(messageList));
+        return dispatch(messageSuccess(messageList.reverse()));
     });
 }; };
+
+
+/***/ }),
+
+/***/ "./src/components/Button.tsx":
+/*!***********************************!*\
+  !*** ./src/components/Button.tsx ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+exports.__esModule = true;
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+var Button = styled_components_1["default"].button(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    display: inline-block;\n    padding: 0.5rem;\n    border-radius: 5px;\n    border: 1px solid #ddd;\n    font-weight: bold;\n    font-size: 0.8rem;\n    line-height: 1;\n    text-decoration: none;\n    transition: opacity 0.3s;\n    cursor: pointer;\n    margin-left: 0.5rem;\n    background-color: #FFF;\n"], ["\n    display: inline-block;\n    padding: 0.5rem;\n    border-radius: 5px;\n    border: 1px solid #ddd;\n    font-weight: bold;\n    font-size: 0.8rem;\n    line-height: 1;\n    text-decoration: none;\n    transition: opacity 0.3s;\n    cursor: pointer;\n    margin-left: 0.5rem;\n    background-color: #FFF;\n"])));
+var ButtonComponent = function (_a) {
+    var props = __rest(_a, []);
+    return React.createElement(Button, __assign({}, props));
+};
+exports["default"] = ButtonComponent;
+var templateObject_1;
+
+
+/***/ }),
+
+/***/ "./src/components/GlobalStyle.tsx":
+/*!****************************************!*\
+  !*** ./src/components/GlobalStyle.tsx ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+exports.__esModule = true;
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+var GlobalStyle = styled_components_1.createGlobalStyle(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  body {\n    font-family: Meiryo;\n    margin: 0;\n    padding: 0;\n  }\n"], ["\n  body {\n    font-family: Meiryo;\n    margin: 0;\n    padding: 0;\n  }\n"])));
+exports["default"] = GlobalStyle;
+var templateObject_1;
+
+
+/***/ }),
+
+/***/ "./src/components/Header.tsx":
+/*!***********************************!*\
+  !*** ./src/components/Header.tsx ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+exports.__esModule = true;
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+var Message = /** @class */ (function (_super) {
+    __extends(Message, _super);
+    function Message() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Message.prototype.render = function () {
+        return (React.createElement(Header, null,
+            React.createElement(Title, null, "\u30C1\u30E3\u30C3\u30C8")));
+    };
+    return Message;
+}(React.Component));
+exports["default"] = Message;
+var Header = styled_components_1["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    top: 0;\n    width: 100%;\n    background-color: #202124;\n    height: 60px;\n    color: white;\n    display: flex;\n"], ["\n    top: 0;\n    width: 100%;\n    background-color: #202124;\n    height: 60px;\n    color: white;\n    display: flex;\n"])));
+var Title = styled_components_1["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    padding-left: 30px;\n    padding-top: 10px;\n    font-weight: 600;\n    font-size: 30px;\n"], ["\n    padding-left: 30px;\n    padding-top: 10px;\n    font-weight: 600;\n    font-size: 30px;\n"])));
+var templateObject_1, templateObject_2;
+
+
+/***/ }),
+
+/***/ "./src/components/Input.tsx":
+/*!**********************************!*\
+  !*** ./src/components/Input.tsx ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+exports.__esModule = true;
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+var Input = styled_components_1["default"].input.attrs({
+    type: 'text',
+})(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    padding: 0.5rem;\n    border: 1px solid #ddd;\n    border-radius: 2px;\n    color: #000000;\n    font-size: 0.8rem;\n    width: 50%;\n"], ["\n    padding: 0.5rem;\n    border: 1px solid #ddd;\n    border-radius: 2px;\n    color: #000000;\n    font-size: 0.8rem;\n    width: 50%;\n"])));
+var InputComponent = function (_a) {
+    var props = __rest(_a, []);
+    return React.createElement(Input, __assign({}, props));
+};
+exports["default"] = InputComponent;
+var templateObject_1;
+
+
+/***/ }),
+
+/***/ "./src/components/UserField.tsx":
+/*!**************************************!*\
+  !*** ./src/components/UserField.tsx ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+exports.__esModule = true;
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+var UserField = styled_components_1["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    margin: 2rem 0;\n"], ["\n    margin: 2rem 0;\n"])));
+var UserFieldComponent = function (_a) {
+    var props = __rest(_a, []);
+    return React.createElement(UserField, __assign({}, props));
+};
+exports["default"] = UserFieldComponent;
+var templateObject_1;
 
 
 /***/ }),
@@ -86552,8 +86778,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 exports.__esModule = true;
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 var Message = /** @class */ (function (_super) {
     __extends(Message, _super);
     function Message() {
@@ -86561,15 +86792,22 @@ var Message = /** @class */ (function (_super) {
     }
     Message.prototype.render = function () {
         var _a = this.props, name = _a.name, message = _a.message, timestamp = _a.timestamp;
-        return (React.createElement("div", { className: "Message" },
-            React.createElement("div", { className: "" },
-                React.createElement("p", { className: "" }, name),
-                React.createElement("p", { className: "" }, message),
-                React.createElement("p", { className: "" }, timestamp))));
+        return (React.createElement(MessageContainer, null,
+            React.createElement(TopContainer, null,
+                React.createElement(Name, null, name),
+                React.createElement(Time, null, timestamp)),
+            React.createElement(MessageTextContainer, null,
+                React.createElement("p", null, message))));
     };
     return Message;
 }(React.Component));
 exports["default"] = Message;
+var MessageContainer = styled_components_1["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    background-color: white;\n    border-radius: 6px;\n    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);\n    color: #4a4a4a;\n    display: block;\n    padding: 0.5rem;\n    margin-top: 0.5rem;\n"], ["\n    background-color: white;\n    border-radius: 6px;\n    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);\n    color: #4a4a4a;\n    display: block;\n    padding: 0.5rem;\n    margin-top: 0.5rem;\n"])));
+var MessageTextContainer = styled_components_1["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  margin: 0 0.5rem;\n"], ["\n  margin: 0 0.5rem;\n"])));
+var TopContainer = styled_components_1["default"].div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    display: flex;\n"], ["\n    display: flex;\n"])));
+var Name = styled_components_1["default"].div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    font-weight: 600;\n    margin: 0 0.5rem;\n"], ["\n    font-weight: 600;\n    margin: 0 0.5rem;\n"])));
+var Time = styled_components_1["default"].div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n    font-size: 14px;\n    margin-left: 1.5rem;\n"], ["\n    font-size: 14px;\n    margin-left: 1.5rem;\n"])));
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 
 
 /***/ }),
@@ -86608,20 +86846,39 @@ var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_m
 var Actions = __webpack_require__(/*! ../actions/app */ "./src/actions/app.ts");
 var ChatBox_1 = __webpack_require__(/*! ./ChatBox */ "./src/containers/ChatBox.tsx");
 var MessageList_1 = __webpack_require__(/*! ./MessageList */ "./src/containers/MessageList.tsx");
+var Header_1 = __webpack_require__(/*! ../components/Header */ "./src/components/Header.tsx");
+var GlobalStyle_1 = __webpack_require__(/*! ../components/GlobalStyle */ "./src/components/GlobalStyle.tsx");
+var Button_1 = __webpack_require__(/*! ../components/Button */ "./src/components/Button.tsx");
+var Input_1 = __webpack_require__(/*! ../components/Input */ "./src/components/Input.tsx");
+var UserField_1 = __webpack_require__(/*! ../components/UserField */ "./src/components/UserField.tsx");
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     App.prototype.render = function () {
-        var _a = this.props, app_actions = _a.app_actions, name = _a.name, message_list = _a.message_list;
-        return (React.createElement("div", null,
+        var _a = this.props, app_actions = _a.app_actions, name = _a.name;
+        var input;
+        return (React.createElement(Body, null,
+            React.createElement(GlobalStyle_1["default"], null),
+            React.createElement(Header_1["default"], null),
             React.createElement(Container, null,
-                name ?
-                    name + " \u3055\u3093\u3001\u3053\u3093\u306B\u3061\u306F\u3002" :
-                    (React.createElement("button", { onClick: function () { app_actions.login('test'); console.log("hello"); } }, "\u3053\u3093\u306B\u3061\u306F")),
-                React.createElement(ChatBox_1["default"], { name: name, message: "", message_send: "" }),
-                React.createElement(MessageList_1["default"], { app_actions: [], message_list: function (e) { return app_actions.receiveMessage(); } }))));
+                React.createElement(UserField_1["default"], null,
+                    !name &&
+                        React.createElement("form", { onSubmit: function (e) {
+                                e.preventDefault();
+                                if (input) {
+                                    app_actions.login(input);
+                                    input = '';
+                                }
+                                else {
+                                    return;
+                                }
+                            } },
+                            React.createElement(Input_1["default"], { onChange: function (e) { input = e.target.value; }, placeholder: "\u30E6\u30FC\u30B6\u30FC\u540D" }),
+                            React.createElement(Button_1["default"], { type: "submit" }, "\u30ED\u30B0\u30A4\u30F3")),
+                    name && React.createElement(ChatBox_1["default"], null)),
+                React.createElement(MessageList_1["default"], null))));
     };
     return App;
 }(React.Component));
@@ -86639,8 +86896,9 @@ function mapDispatchToProps(dispatch) {
     };
 }
 exports["default"] = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(App);
-var Container = styled_components_1["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  max-width: 800px;\n  margin: 0 auto;\n"], ["\n  max-width: 800px;\n  margin: 0 auto;\n"])));
-var templateObject_1;
+var Container = styled_components_1["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    max-width: 800px;\n    margin: 0 auto;\n"], ["\n    max-width: 800px;\n    margin: 0 auto;\n"])));
+var Body = styled_components_1["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  margin: 0;\n  padding: 0;\n"], ["\n  margin: 0;\n  padding: 0;\n"])));
+var templateObject_1, templateObject_2;
 
 
 /***/ }),
@@ -86672,7 +86930,9 @@ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
 var Actions = __webpack_require__(/*! ../actions/app */ "./src/actions/app.ts");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-;
+var Input_1 = __webpack_require__(/*! ../components/Input */ "./src/components/Input.tsx");
+var Button_1 = __webpack_require__(/*! ../components/Button */ "./src/components/Button.tsx");
+var UserField_1 = __webpack_require__(/*! ../components/UserField */ "./src/components/UserField.tsx");
 var ChatBox = /** @class */ (function (_super) {
     __extends(ChatBox, _super);
     function ChatBox() {
@@ -86681,26 +86941,41 @@ var ChatBox = /** @class */ (function (_super) {
     ChatBox.prototype.render = function () {
         var _a = this.props, name = _a.name, app_actions = _a.app_actions;
         var input;
-        return (React.createElement("div", { className: "ChatBox" },
-            React.createElement("div", { className: "" },
-                React.createElement("p", null, name),
-                React.createElement("input", { name: name, className: "", placeholder: "\u540D\u524D" }),
-                React.createElement("form", { onSubmit: function (e) {
-                        e.preventDefault();
+        var myInput = React.createRef();
+        return (React.createElement(UserField_1["default"], null,
+            React.createElement("p", null,
+                "\u3088\u3046\u3053\u305D ",
+                name,
+                " \u3055\u3093"),
+            React.createElement("form", null,
+                React.createElement(Input_1["default"], { type: "text", onChange: function (e) {
+                        input = e.target.value;
+                    }, placeholder: "\u30E1\u30C3\u30BB\u30FC\u30B8" }),
+                React.createElement(Button_1["default"], { type: "reset", value: "Submit", onClick: function (e) {
                         if (input) {
-                            app_actions.sendMessage(name, input, new Date().toString());
-                            input = '';
+                            app_actions.sendMessage(name, input, dateToStr24HPad0(new Date(), 'YYYY/MM/DD hh:mm:ss'));
+                            input = "";
                         }
                         else {
-                            return;
+                            return "";
                         }
-                    } },
-                    React.createElement("input", { onChange: function (e) { input = e.target.value; } }),
-                    React.createElement("button", { type: "submit" }, "Send")))));
+                    } }, "Send"))));
     };
     return ChatBox;
 }(React.Component));
 exports.ChatBox = ChatBox;
+function dateToStr24HPad0(date, format) {
+    if (!format) {
+        format = 'YYYY/MM/DD hh:mm:ss';
+    }
+    format = format.replace(/YYYY/g, date.getFullYear());
+    format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
+    format = format.replace(/DD/g, ('0' + date.getDate()).slice(-2));
+    format = format.replace(/hh/g, ('0' + date.getHours()).slice(-2));
+    format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
+    format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
+    return format.toString();
+}
 function mapStateToProps(state) {
     return {
         name: state.app.get("login_user_name"),
@@ -86758,10 +87033,8 @@ var MessageList = /** @class */ (function (_super) {
     };
     MessageList.prototype.render = function () {
         var _a = this.props, message_list = _a.message_list, app_actions = _a.app_actions;
-        return (React.createElement("ul", null,
-            React.createElement("button", { onClick: function () { return app_actions.receiveMessage(); } }, "Fetch"),
-            this.props.message_list ?
-                message_list.map(function (todo) { return (React.createElement(message_1["default"], { key: todo.id, name: todo.name, message: todo.message, timestamp: todo.date })); }) : "a"));
+        return (React.createElement("div", null, message_list ?
+            message_list.map(function (message) { return (React.createElement(message_1["default"], { key: message.id, name: message.name, message: message.message, timestamp: message.date })); }) : "a"));
     };
     return MessageList;
 }(React.Component));
@@ -86861,8 +87134,9 @@ function default_1(state, action) {
         case actions_1.Actions.APP_LOGIN:
             return state.set("login_user_name", action.login_user_name);
         case actions_1.Actions.RECEIVE_MESSAGE:
-            console.log("R_M");
             return state.set("message_list", action.message_list);
+        case actions_1.Actions.SEND_MESSAGE:
+            return state.set("message", action.message);
         default:
     }
     return state || immutable_1.Map({ login_user_name: "", message_list: [] });
