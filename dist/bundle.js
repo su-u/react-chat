@@ -86466,6 +86466,7 @@ exports.__esModule = true;
 var Actions;
 (function (Actions) {
     Actions["APP_LOGIN"] = "APP_LOGIN";
+    Actions["SNED_MESSAGE"] = "SEND_MESSAGE";
     Actions["RECEIVE_MESSAGE"] = "RECEIVE_MESSAGE";
 })(Actions = exports.Actions || (exports.Actions = {}));
 
@@ -86492,13 +86493,14 @@ function login(name) {
     };
 }
 exports.login = login;
-function sendMessage(name, text, date) {
+exports.sendMessage = function (name, text, date) { return function (dispatch) {
     console.log("send");
-    return function (dispatch) {
-        messagesRef.push({ name: name, text: text, date: date });
-    };
-}
-exports.sendMessage = sendMessage;
+    var article = { name: name, text: text, date: date };
+    messagesRef.push(article);
+    dispatch({
+        type: actions_1.Actions.SNED_MESSAGE,
+    });
+}; };
 function fetchTodoSuccess(list) {
     return {
         type: actions_1.Actions.RECEIVE_MESSAGE,
@@ -86506,28 +86508,24 @@ function fetchTodoSuccess(list) {
     };
 }
 ;
-function receiveMessage() {
-    return function (dispatch) {
+exports.receiveMessage = function () { return function (dispatch) {
+    messagesRef.off();
+    messagesRef.on("value", function (snapshot) {
         var messageList = [];
-        console.log("receive");
-        messagesRef.off();
-        messagesRef.on("value", function (snapshot) {
-            snapshot.forEach(function (doc) {
-                var key = doc.key;
-                var value = doc.val();
-                messageList.push({
-                    id: key,
-                    name: value.name,
-                    message: value.text,
-                    date: value.date
-                });
+        snapshot.forEach(function (doc) {
+            var key = doc.key;
+            var value = doc.val();
+            messageList.push({
+                id: key,
+                name: value.name,
+                message: value.text,
+                date: value.date
             });
-            return dispatch(fetchTodoSuccess(messageList));
         });
-    };
-}
-exports.receiveMessage = receiveMessage;
-;
+        console.log(messageList.length);
+        return dispatch(fetchTodoSuccess(messageList));
+    });
+}; };
 
 
 /***/ }),
@@ -86762,7 +86760,7 @@ var MessageList = /** @class */ (function (_super) {
         var _a = this.props, message_list = _a.message_list, app_actions = _a.app_actions;
         return (React.createElement("ul", null,
             React.createElement("button", { onClick: function () { return app_actions.receiveMessage(); } }, "Fetch"),
-            message_list ?
+            this.props.message_list ?
                 message_list.map(function (todo) { return (React.createElement(message_1["default"], { key: todo.id, name: todo.name, message: todo.message, timestamp: todo.date })); }) : "a"));
     };
     return MessageList;
@@ -86863,6 +86861,7 @@ function default_1(state, action) {
         case actions_1.Actions.APP_LOGIN:
             return state.set("login_user_name", action.login_user_name);
         case actions_1.Actions.RECEIVE_MESSAGE:
+            console.log("R_M");
             return state.set("message_list", action.message_list);
         default:
     }
