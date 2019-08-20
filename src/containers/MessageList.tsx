@@ -23,13 +23,13 @@ export class MessageList extends React.Component<Props> {
         const {message_list, app_actions} = this.props;
 
         return (
-            <ul>
-                <button onClick={() => app_actions.receiveMessage()}>Fetch</button>
+            <div>
+                {/*<button onClick={() => app_actions.receiveMessage()}>Fetch</button>*/}
                 {message_list ?
                     message_list.map(message => (
                     <Message key={message.id} name={message.name} message={message.message} timestamp={message.date}  />
                 )):"a"}
-            </ul>
+            </div>
         );
     }
 }

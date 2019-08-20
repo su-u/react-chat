@@ -7,6 +7,8 @@ export default function (state, action) {
             return state.set("login_user_name", action.login_user_name);
         case type.RECEIVE_MESSAGE:
             return state.set("message_list", action.message_list);
+        case type.SEND_MESSAGE:
+            return state.set("message", action.message);
         default:
     }
     return state || Map({login_user_name: "", message_list: []});

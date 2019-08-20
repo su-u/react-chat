@@ -1,7 +1,11 @@
 import * as React from "react"
 import {bindActionCreators} from "redux";
 import * as Actions from "../actions/app"
-import {connect, Dispatch} from "react-redux";;
+import {connect, Dispatch} from "react-redux";
+
+import Input from "../components/Input";
+import Button from "../components/Button";
+import UserField from "../components/UserField";
 
 interface Props {
     name: string;
@@ -12,29 +16,43 @@ export class ChatBox extends React.Component<Props> {
     render() {
         const {name, app_actions} = this.props;
         let input: string;
-        return (
-            <div className="ChatBox">
-                <div className="">
-                        <p>{name}</p>
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                if (input) {
-                                    app_actions.sendMessage(name, input, new Date().toString());
-                                    input = '';
-                                } else {
-                                    return
-                                }
-                            }}
-                    >
-                        <input onChange={(e) => {input = e.target.value}} placeholder="メッセージ" />
-                        <button type="submit">Send</button>
-                    </form>
-                </div>
+        const myInput = React.createRef();
 
-            </div>
+        return (
+            <UserField>
+                <p>ようこそ {name} さん</p>
+                <form>
+                        <Input type="text" onChange={(e) => {
+                            input = e.target.value
+                        }} placeholder="メッセージ"
+                        />
+                        <Button type="reset" value="Submit" onClick={(e) => {
+                            if (input) {
+                                app_actions.sendMessage(name, input, dateToStr24HPad0(new Date(), 'YYYY/MM/DD hh:mm:ss'));
+                                input = "";
+
+                            } else {
+                                return "";
+                            }
+                    }}>Send</Button>
+                </form>
+
+            </UserField>
         );
     }
+}
+
+function dateToStr24HPad0(date, format) {
+    if (!format) {
+        format = 'YYYY/MM/DD hh:mm:ss'
+    }
+    format = format.replace(/YYYY/g, date.getFullYear());
+    format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
+    format = format.replace(/DD/g, ('0' + date.getDate()).slice(-2));
+    format = format.replace(/hh/g, ('0' + date.getHours()).slice(-2));
+    format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
+    format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
+    return format.toString();
 }
 
 function mapStateToProps(state) {
@@ -53,3 +71,4 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(ChatBox);
+

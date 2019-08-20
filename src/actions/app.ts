@@ -17,6 +17,7 @@ export const sendMessage = (name: string, text: string, date: string) => dispatc
     messagesRef.push(article);
     dispatch({
         type: type.SEND_MESSAGE,
+        message: "",
     })
 };
 

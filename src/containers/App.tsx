@@ -2,10 +2,15 @@ import * as React from "react";
 import {bindActionCreators} from "redux";
 import {connect, Dispatch} from "react-redux";
 import styled from 'styled-components';
+
 import * as Actions from "../actions/app";
 import ChatBox from "./ChatBox";
 import MessageList from "./MessageList";
-
+import Header from "../components/Header";
+import GlobalStyle from "../components/GlobalStyle";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import UserField from "../components/UserField";
 
 
 interface Props {
@@ -21,10 +26,12 @@ export class App extends React.Component<Props> {
 
         let input;
         return (
-            <div>
+            <Body>
+                <GlobalStyle />
+                <Header />
                 <Container>
-                    {name ?
-                        "":
+                    <UserField>
+                    {!name &&
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
@@ -36,17 +43,17 @@ export class App extends React.Component<Props> {
                                 }
                             }}
                         >
-                            <input onChange={(e) => {input = e.target.value}} placeholder="ユーザー名"/>
-                            <button type="submit">ログイン</button>
+                            <Input onChange={(e) => {input = e.target.value}} placeholder="ユーザー名"/>
+                            <Button type="submit">ログイン</Button>
                         </form>
                     }
                     {
-                        name && <ChatBox/>
+                        name && <ChatBox />
                     }
+                    </UserField>
                     <MessageList />
                 </Container>
-
-            </div>
+            </Body>
         );
     }
 }
@@ -71,6 +78,12 @@ export default connect(
 )(App);
 
 const Container = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
+    max-width: 800px;
+    margin: 0 auto;
 `;
+
+const Body = styled.div`
+  margin: 0;
+  padding: 0;
+`;
+
