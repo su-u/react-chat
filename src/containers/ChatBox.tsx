@@ -1,8 +1,9 @@
 import * as React from "react"
 import {bindActionCreators} from "redux";
-import * as Actions from "../actions/app";
+import * as Actions from "../actions/app"
+import {connect, Dispatch} from "react-redux";;
 import {App} from "./App";
-import {connect, Dispatch} from "react-redux";
+
 
 interface Props {
     name: string;
@@ -16,20 +17,20 @@ export class ChatBox extends React.Component<Props> {
         return (
             <div className="ChatBox">
                 <div className="">
-                    <p>{this.props.name}</p>
-                    <input name={this.props.name} className=""  placeholder="名前" />
-                    <form
-                        onSubmit={e => {
-                            e.preventDefault();
-                            if (input) {
-                                app_actions.sendMessage(name, input, new Date().toString());
-                                input = '';
-                            } else {
-                                return
-                            }
-                        }}
+                        <p>{name}</p>
+                        <input name={name} className=""  placeholder="名前" />
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                if (input) {
+                                    app_actions.sendMessage(name, input, new Date().toString());
+                                    input = '';
+                                } else {
+                                    return
+                                }
+                            }}
                     >
-                        <input onChange={e => {input = e.target.value}} />
+                        <input onChange={(e) => {input = e.target.value}} />
                         <button type="submit">Send</button>
                     </form>
                 </div>

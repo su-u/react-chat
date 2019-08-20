@@ -9,5 +9,5 @@ export default function (state, action) {
             return state.set("message_list", action.message_list);
         default:
     }
-    return state || Map({login_user_name: ""});
+    return state || Map({login_user_name: "", message_list: []});
 }

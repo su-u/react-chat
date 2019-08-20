@@ -1,49 +1,57 @@
 import * as React from "react";
-import { bindActionCreators } from "redux";
-import { connect, Dispatch } from "react-redux";
+import {bindActionCreators} from "redux";
+import {connect, Dispatch} from "react-redux";
 import styled from 'styled-components';
-import {login, ReceiveMessage, SendMessage} from "../actions/app";
-import { firebaseDb } from '../firebase/index';
+import * as Actions from "../actions/app";
+import ChatBox from "./ChatBox";
+import MessageList from "./MessageList";
 
 
-const messagesRef = firebaseDb.ref('messages');
 
 interface Props {
-  name: string;
-  app_actions: any;
+    name: string;
+    app_actions: any;
+    text: string;
+    message_list: any;
 }
 
 export class App extends React.Component<Props> {
-  render() {
-    const { app_actions, name } = this.props;
+    render() {
+        const {app_actions, name, message_list} = this.props;
 
-    return (
-      <Container>
-        {name ?
-          `${name} さん、こんにちは。` :
-          (<button onClick={() => app_actions('test')}>こんにちは</button>)
-        }
-      </Container>
-    );
-  }
+        return (
+            <div>
+                <Container>
+                    {name ?
+                        `${name} さん、こんにちは。` :
+                        (<button onClick={() => {app_actions.login('test');console.log("hello")}}>こんにちは</button>)
+                    }
+                    <ChatBox name={name} message={""} message_send={""}/>
+                    <MessageList app_actions={[]} message_list={e => app_actions.receiveMessage()}></MessageList>
+                </Container>
+
+            </div>
+        );
+    }
 }
 
 function mapStateToProps(state) {
-  return {
-    name: state.app.get('login_user_name')
-  };
+    return {
+        name: state.app.get("login_user_name"),
+        text: state.app.get("send_message"),
+        message_list: state.app.get("message_list"),
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return {
-    app_actions: bindActionCreators(login, dispatch),
-
-  };
+    return {
+        app_actions: bindActionCreators(Actions, dispatch),
+    };
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps,
 )(App);
 
 const Container = styled.div`
