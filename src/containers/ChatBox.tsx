@@ -16,7 +16,6 @@ export class ChatBox extends React.Component<Props> {
     render() {
         const {name, app_actions} = this.props;
         let input: string;
-        const myInput = React.createRef();
 
         return (
             <UserField>
