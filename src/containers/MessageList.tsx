@@ -22,10 +22,11 @@ export class MessageList extends React.Component<Props> {
     }
     render() {
         const {message_list, app_actions} = this.props;
+
         return (
             <ul>
                 <button onClick={() => app_actions.receiveMessage()}>Fetch</button>
-                {message_list ?
+                {this.props.message_list ?
                     message_list.map(todo => (
                     <Message key={todo.id} name={todo.name} message={todo.message} timestamp={todo.date}  />
                 )):"a"}

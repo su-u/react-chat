@@ -13,12 +13,14 @@ export function login(name: string) {
     };
 }
 
-export function sendMessage(name: string, text: string, date: string) {
+export const sendMessage = (name: string, text: string, date: string) => dispatch =>{
     console.log("send");
-    return dispatch => {
-        messagesRef.push({name: name, text: text, date: date});
-    }
-}
+    const article = {name: name, text: text, date: date};
+    messagesRef.push(article);
+    dispatch({
+        type: type.SNED_MESSAGE,
+    })
+};
 
 function fetchTodoSuccess(list) {
     return {
@@ -27,23 +29,21 @@ function fetchTodoSuccess(list) {
     }
 };
 
-export function receiveMessage() {
-    return dispatch => {
-        let messageList = [];
-        console.log("receive");
-        messagesRef.off();
-        messagesRef.on("value", (snapshot) => {
-            snapshot.forEach((doc) => {
-                const key = doc.key;
-                const value = doc.val();
-                messageList.push({
-                    id: key,
-                    name: value.name,
-                    message: value.text,
-                    date: value.date
-                });
+export const receiveMessage = () => dispatch => {
+    messagesRef.off();
+    messagesRef.on("value", (snapshot) => {
+        let messageList= [];
+        snapshot.forEach((doc) => {
+            const key = doc.key;
+            const value = doc.val();
+            messageList.push({
+                id: key,
+                name: value.name,
+                message: value.text,
+                date: value.date
             });
-            return dispatch(fetchTodoSuccess(messageList));
         });
-    }
+        console.log(messageList.length);
+        return dispatch(fetchTodoSuccess(messageList));
+    });
 };

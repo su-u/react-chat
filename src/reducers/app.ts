@@ -6,6 +6,7 @@ export default function (state, action) {
         case type.APP_LOGIN:
             return state.set("login_user_name", action.login_user_name);
         case type.RECEIVE_MESSAGE:
+            console.log("R_M")
             return state.set("message_list", action.message_list);
         default:
     }
