@@ -86925,11 +86925,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 exports.__esModule = true;
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
 var Actions = __webpack_require__(/*! ../actions/app */ "./src/actions/app.ts");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 var Input_1 = __webpack_require__(/*! ../components/Input */ "./src/components/Input.tsx");
 var Button_1 = __webpack_require__(/*! ../components/Button */ "./src/components/Button.tsx");
 var UserField_1 = __webpack_require__(/*! ../components/UserField */ "./src/components/UserField.tsx");
@@ -86941,13 +86946,13 @@ var ChatBox = /** @class */ (function (_super) {
     ChatBox.prototype.render = function () {
         var _a = this.props, name = _a.name, app_actions = _a.app_actions;
         var input;
-        var myInput = React.createRef();
         return (React.createElement(UserField_1["default"], null,
             React.createElement("p", null,
                 "\u3088\u3046\u3053\u305D ",
                 name,
                 " \u3055\u3093"),
             React.createElement("form", null,
+                React.createElement(DisableInput, null),
                 React.createElement(Input_1["default"], { type: "text", onChange: function (e) {
                         input = e.target.value;
                     }, placeholder: "\u30E1\u30C3\u30BB\u30FC\u30B8" }),
@@ -86987,6 +86992,10 @@ function mapDispatchToProps(dispatch) {
     };
 }
 exports["default"] = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(ChatBox);
+var DisableInput = styled_components_1["default"].input.attrs({
+    type: 'text',
+})(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    display: none;\n"], ["\n    display: none;\n"])));
+var templateObject_1;
 
 
 /***/ }),
