@@ -26,8 +26,8 @@ export class App extends React.Component<Props> {
                         `${name} さん、こんにちは。` :
                         (<button onClick={() => {app_actions.login('test');console.log("hello")}}>こんにちは</button>)
                     }
-                    <ChatBox name={name} message={""} message_send={""}/>
-                    <MessageList app_actions={[]} message_list={e => app_actions.receiveMessage()}></MessageList>
+                    <ChatBox />
+                    <MessageList />
                 </Container>
 
             </div>

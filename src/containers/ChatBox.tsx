@@ -2,8 +2,6 @@ import * as React from "react"
 import {bindActionCreators} from "redux";
 import * as Actions from "../actions/app"
 import {connect, Dispatch} from "react-redux";;
-import {App} from "./App";
-
 
 interface Props {
     name: string;

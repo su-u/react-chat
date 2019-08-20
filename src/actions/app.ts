@@ -1,12 +1,10 @@
-import {Map} from "immutable";
 import {firebaseDb} from '../firebase/index';
 
-import {Actions, Actions as type} from "../actions"
-import {Dispatch} from "redux";
+import {Actions as type} from "../actions"
 
 const messagesRef = firebaseDb.ref('messages');
 
-export function login(name: string) {
+export const login = (name: string) => {
     return {
         type: type.APP_LOGIN,
         login_user_name: name
@@ -18,11 +16,11 @@ export const sendMessage = (name: string, text: string, date: string) => dispatc
     const article = {name: name, text: text, date: date};
     messagesRef.push(article);
     dispatch({
-        type: type.SNED_MESSAGE,
+        type: type.SEND_MESSAGE,
     })
 };
 
-function fetchTodoSuccess(list) {
+function messageSuccess(list) {
     return {
         type: type.RECEIVE_MESSAGE,
         message_list: list,
@@ -44,6 +42,6 @@ export const receiveMessage = () => dispatch => {
             });
         });
         console.log(messageList.length);
-        return dispatch(fetchTodoSuccess(messageList));
+        return dispatch(messageSuccess(messageList));
     });
 };

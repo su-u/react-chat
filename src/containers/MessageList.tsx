@@ -1,7 +1,6 @@
 import * as React from "react"
 import {bindActionCreators} from "redux";
 import * as Actions from "../actions/app";
-import {App} from "./App";
 import {connect, Dispatch} from "react-redux";
 import Message from "../components/message";
 
@@ -26,9 +25,9 @@ export class MessageList extends React.Component<Props> {
         return (
             <ul>
                 <button onClick={() => app_actions.receiveMessage()}>Fetch</button>
-                {this.props.message_list ?
-                    message_list.map(todo => (
-                    <Message key={todo.id} name={todo.name} message={todo.message} timestamp={todo.date}  />
+                {message_list ?
+                    message_list.map(message => (
+                    <Message key={message.id} name={message.name} message={message.message} timestamp={message.date}  />
                 )):"a"}
             </ul>
         );
