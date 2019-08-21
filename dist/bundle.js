@@ -86440,22 +86440,15 @@ module.exports = function(originalModule) {
 
 // Redux の更新があったときに React を呼ぶ処理です
 // このファイルについては理解できなくて OK です
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
 exports.__esModule = true;
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var App_1 = __webpack_require__(/*! ./containers/App */ "./src/containers/App.tsx");
-var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-var GlobalStyle = styled_components_1.createGlobalStyle(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    body {\n        margin: 0;\n    }\n"], ["\n    body {\n        margin: 0;\n    }\n"])));
 exports["default"] = (function (_a) {
     var store = _a.store;
     return (React.createElement(react_redux_1.Provider, { store: store },
         React.createElement(App_1["default"], null)));
 });
-var templateObject_1;
 
 
 /***/ }),
@@ -86490,17 +86483,16 @@ var Actions;
 "use strict";
 
 exports.__esModule = true;
-var index_1 = __webpack_require__(/*! ../firebase/index */ "./src/firebase/index.ts");
+var firebase_1 = __webpack_require__(/*! ../firebase */ "./src/firebase/index.ts");
 var actions_1 = __webpack_require__(/*! ../actions */ "./src/actions.ts");
-var messagesRef = index_1.firebaseDb.ref('messages');
+var messagesRef = firebase_1.firebaseDb.ref('messages');
 exports.login = function (name) {
     return {
         type: actions_1.Actions.APP_LOGIN,
-        login_user_name: name
+        login_user_name: name,
     };
 };
 exports.sendMessage = function (name, text, date) { return function (dispatch) {
-    console.log("send");
     var message = { name: name, text: text, date: date };
     messagesRef.push(message);
     dispatch({
@@ -86529,7 +86521,6 @@ exports.receiveMessage = function () { return function (dispatch) {
                 date: value.date
             });
         });
-        console.log(messageList.length);
         return dispatch(messageSuccess(messageList.reverse()));
     });
 }; };
@@ -86966,7 +86957,7 @@ var ChatBox = /** @class */ (function (_super) {
                         else {
                             return "";
                         }
-                    } }, "Send"))));
+                    } }, "\u9001\u4FE1"))));
     };
     return ChatBox;
 }(React.Component));
@@ -87037,13 +87028,12 @@ var MessageList = /** @class */ (function (_super) {
     }
     MessageList.prototype.componentDidMount = function () {
         var app_actions = this.props.app_actions;
-        console.log("start");
         app_actions.receiveMessage();
     };
     MessageList.prototype.render = function () {
-        var _a = this.props, message_list = _a.message_list, app_actions = _a.app_actions;
-        return (React.createElement("div", null, message_list ?
-            message_list.map(function (message) { return (React.createElement(message_1["default"], { key: message.id, name: message.name, message: message.message, timestamp: message.date })); }) : "a"));
+        var message_list = this.props.message_list;
+        return (React.createElement("div", null, message_list &&
+            message_list.map(function (message) { return (React.createElement(message_1["default"], { key: message.id, name: message.name, message: message.message, timestamp: message.date })); })));
     };
     return MessageList;
 }(React.Component));
@@ -87169,7 +87159,7 @@ exports.__esModule = true;
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
 var app_1 = __webpack_require__(/*! ./app */ "./src/reducers/app.ts");
 exports["default"] = redux_1.combineReducers({
-    app: app_1["default"]
+    app: app_1["default"],
 });
 
 
