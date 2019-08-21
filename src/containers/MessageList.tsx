@@ -13,7 +13,6 @@ interface Props {
 export class MessageList extends React.Component<Props> {
     componentDidMount() {
         const {app_actions} = this.props;
-        console.log("start");
         app_actions.receiveMessage();
     }
 

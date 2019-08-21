@@ -12,7 +12,6 @@ export const login = (name: string) => {
 }
 
 export const sendMessage = (name: string, text: string, date: string) => dispatch => {
-    console.log("send");
     const message = {name: name, text: text, date: date};
     messagesRef.push(message);
     dispatch({
@@ -42,7 +41,6 @@ export const receiveMessage = () => dispatch => {
                 date: value.date
             });
         });
-        console.log(messageList.length);
         return dispatch(messageSuccess(messageList.reverse()));
     });
 };
