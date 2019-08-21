@@ -12,6 +12,7 @@ interface Props {
 export default class Message extends React.Component<Props> {
     render() {
         const {name, message, timestamp} = this.props;
+
         return (
             <MessageContainer>
                 <TopContainer>

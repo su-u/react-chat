@@ -16,8 +16,6 @@ import UserField from "../components/UserField";
 interface Props {
     name: string;
     app_actions: any;
-    text: string;
-    message_list: any;
 }
 
 export class App extends React.Component<Props> {
@@ -44,7 +42,7 @@ export class App extends React.Component<Props> {
                             }}
                         >
                             <Input onChange={(e) => {
-                                input = e.target.value
+                                input = e.target.value;
                             }} placeholder="ユーザー名"/>
                             <Button type="submit">ログイン</Button>
                         </form>

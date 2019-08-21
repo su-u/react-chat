@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {bindActionCreators} from "redux";
 import * as Actions from "../actions/app";
 import {connect, Dispatch} from "react-redux";
@@ -17,16 +17,15 @@ export class MessageList extends React.Component<Props> {
     }
 
     render() {
-        const {message_list, app_actions} = this.props;
+        const {message_list} = this.props;
 
         return (
             <div>
-                {/*<button onClick={() => app_actions.receiveMessage()}>Fetch</button>*/}
-                {message_list ?
+                {message_list &&
                     message_list.map(message => (
                         <Message key={message.id} name={message.name} message={message.message}
                                  timestamp={message.date}/>
-                    )) : "a"}
+                    ))}
             </div>
         );
     }

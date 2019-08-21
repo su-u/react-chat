@@ -1,15 +1,15 @@
-import {firebaseDb} from '../firebase/index';
+import {firebaseDb} from '../firebase';
 
-import {Actions as type} from "../actions"
+import {Actions as type} from "../actions";
 
 const messagesRef = firebaseDb.ref('messages');
 
 export const login = (name: string) => {
     return {
         type: type.APP_LOGIN,
-        login_user_name: name
+        login_user_name: name,
     };
-}
+};
 
 export const sendMessage = (name: string, text: string, date: string) => dispatch => {
     const message = {name: name, text: text, date: date};

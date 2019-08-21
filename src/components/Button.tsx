@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import styled from 'styled-components';
 
 const Button = styled.button`
@@ -16,6 +16,6 @@ const Button = styled.button`
     background-color: #FFF;
 `;
 
-const ButtonComponent = ({...props}) => <Button {...props} />;
+const ButtonComponent = ({...props}: any) => <Button {...props} />;
 
 export default ButtonComponent;

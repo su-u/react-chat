@@ -12,6 +12,6 @@ const Input = styled.input.attrs({
     width: 50%;
 `;
 
-const InputComponent = ({ ...props }) => <Input {...props} />;
+const InputComponent = ({...props}: any) => <Input {...props} />;
 
 export default InputComponent;

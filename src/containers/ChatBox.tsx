@@ -24,7 +24,7 @@ export class ChatBox extends React.Component<Props> {
                 <form>
                     <DisableInput/>
                     <Input type="text" onChange={(e) => {
-                        input = e.target.value
+                        input = e.target.value;
                     }} placeholder="メッセージ"
                     />
                     <Button type="reset" value="Submit" onClick={(e) => {
@@ -35,7 +35,7 @@ export class ChatBox extends React.Component<Props> {
                         } else {
                             return "";
                         }
-                    }}>Send</Button>
+                    }}>送信</Button>
                 </form>
 
             </UserField>
@@ -43,7 +43,7 @@ export class ChatBox extends React.Component<Props> {
     }
 }
 
-function dateToStr24HPad0(date, format) {
+function dateToStr24HPad0(date: any, format: string) {
     if (!format) {
         format = 'YYYY/MM/DD hh:mm:ss'
     }
