@@ -1,11 +1,4 @@
-auto-scale/react-redux-typescript-boilerplate
-====
-
 ## Overview
-
-AutoScale で使っている React 環境を簡単に作成できるボイラープレートです。
-
-それぞれのライブラリのごく簡単なサンプルコードつきなので、高速に開発を開始できます。
 
 以下を使った開発を簡単に開始することができます。
 
